@@ -50,20 +50,20 @@ router.get('/:id/actions', (req, res) => {
 
   projects
     .getProjectActions(id)
-    .then(project => {
-      if (!project) {
+    .then(actions => {
+      if (actions.length === 0) {
         res.status(404).json({
           success: false,
-          message: 'No project with that id exists. Please try again.'
+          message:
+            'This project has no actions, or no project with that id exists. Please try again.'
         });
       } else {
         res.status(200).json({
           success: true,
-          project
+          actions
         });
       }
     })
-
     .catch(err =>
       res.status(500).json({
         success: false,
