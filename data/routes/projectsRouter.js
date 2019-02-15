@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const projects = require('../../../Sprint-Challenge-Node-Express/data/helpers/projectModel');
+const projects = require('../helpers/projectModel');
 
 router.get('/', (req, res) => {
   // const id = req.params.id;
