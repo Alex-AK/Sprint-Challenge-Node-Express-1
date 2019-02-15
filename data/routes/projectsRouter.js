@@ -45,6 +45,33 @@ router.get('/:id', (req, res) => {
     );
 });
 
+router.get('/:id/actions', (req, res) => {
+  const id = req.params.id;
+
+  projects
+    .getProjectActions(id)
+    .then(project => {
+      if (!project) {
+        res.status(404).json({
+          success: false,
+          message: 'No project with that id exists. Please try again.'
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          project
+        });
+      }
+    })
+
+    .catch(err =>
+      res.status(500).json({
+        success: false,
+        message: 'An error occurred while retrieving the projects'
+      })
+    );
+});
+
 // create a new user, requires name field
 router.post('/', (req, res) => {
   const { name, description } = req.body;
