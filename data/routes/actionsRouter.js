@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const actions = require('../../../Sprint-Challenge-Node-Express/data/helpers/actionModel');
+const actions = require('../helpers/actionModel');
 
 // console.log(actions);
 
@@ -29,13 +29,16 @@ router.get('/:id', (req, res) => {
       if (!action) {
         res.status(404).json({
           success: false,
-          message:
-            'The action you are looking for does not exist, please try another id'
+          message: 'No action with that id exists. Please try again.'
         });
       } else {
-        res.status(200).json({ success: true, action });
+        res.status(200).json({
+          success: true,
+          action
+        });
       }
     })
+
     .catch(err =>
       res.status(500).json({
         success: false,
@@ -95,6 +98,40 @@ router.delete('/:id', (req, res) => {
     );
 });
 
-router.put('/', (req, res) => {});
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const updatedAction = req.body;
+
+  if (!req.body) {
+    res.status(400).json({
+      success: false,
+      message: 'Unable to update action action, missing body.'
+    });
+  }
+
+  actions
+    .update(id, updatedAction)
+    .then(action => {
+      if (!action) {
+        res.status(404).json({
+          success: false,
+          message: 'No action with that id exists. Please try again.'
+        });
+      } else {
+        res.status(201).json({
+          success: true,
+          message: 'Action successfully updated.',
+          action
+        });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({
+        success: false,
+        message:
+          'An error occurred while updating the action. An input may not match daba base structure or no matching user id. Please try again.'
+      })
+    );
+});
 
 module.exports = router;

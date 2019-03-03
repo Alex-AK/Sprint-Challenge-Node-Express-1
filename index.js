@@ -4,6 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
 const actionsRouter = require('./data/routes/actionsRouter');
 const projectsRouter = require('./data/routes/projectsRouter');
 
@@ -12,6 +13,7 @@ const actions = require('./data/helpers/actionModel');
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 server.use(helmet());
 server.use(morgan('dev'));
 
